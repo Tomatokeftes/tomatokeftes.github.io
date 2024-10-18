@@ -23,7 +23,7 @@ The current focus of my PhD is single-cell multi-omics data integration, analysi
 </p> -->
 
 {% include news.html %}
-{% include papers.html %}
-{% include axes.html %}
+<!-- {% include papers.html %} -->
+<!-- {% include axes.html %} -->
 
 
