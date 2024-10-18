@@ -13,7 +13,8 @@ I am a PhD candidate at <a href="https://www.maastrichtuniversity.nl/research/ma
 
 <p>
 I received my Bachelor's diploma in Science at the Maastricht Science Program, with a main focus on analytical chemistry, performing my bachelor's thesis under the supervision of <a href="https://www.maastrichtuniversity.nl/m-honing" target="_blank">Maarten Honing</a>, with a main focus on the use of liquid chromatography, mass spectrometry, and ion mobility spectrometry. After graduating, I worked for a year of working under Maarten Honing, completing the results of the thesis, and working in the development of flow chemistry sensors to be used for process analytical technologies. Soon after, I started my Master's degree at Maastricht University <a href="https://curriculum.maastrichtuniversity.nl/education/master/imaging-engineering" target="_blank">Molecular Imaging & Engineering</a>, graduating with a thesis under the supervision of <a href="https://www.maastrichtuniversity.nl/prof-ron-heeren" target="_blank">Ron Heeren</a> & Maarten Honing. There, I focused on the application of imaging technologies, chiefly Mass Spectrometry Imaging (MSI), and how to apply this technique in food science to investigate the spatial molecular heterogeneity of non-animal-based meat alternatives. In parallel, I got familiar with the application of machine learning approaches in the data analysis, picking an interest in the field of imaging data analysis & management.
-
+<p>
+<p>
 The current focus of my PhD is single-cell multi-omics data integration, analysis, and management. I believe that MSI can greatly expand on the field of multi-omics, as it can provide a breadth of additional molecular information, however, lots of work is necessary to integrate the data into existing multi-omics frameworks and perform data analysis.
 </p>
 
