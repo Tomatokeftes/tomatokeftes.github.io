@@ -1,0 +1,8 @@
+title: Theodoros Visvikis
+description: Theodoros Visvikis Homepage
+url: "http://tomatokeftes.github.io"
+
+plugins: ['jekyll-twitter-plugin']
+collections:
+  news:
+    output: true

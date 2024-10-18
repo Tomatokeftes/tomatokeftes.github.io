@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include header.html %}
+
+<body>
+    <div class="pt-5">
+        <div class="container">
+            {% include navbar.html %}
+            <div class="mt-5">
+
+                {% if page.title != 'Home' %}
+                <h1 class="mb-5 display-4" style="font-size: x-large;">
+                    {{page.title}}
+                </h1>
+                {% endif %}
+
+                {{ content }}
+
+            </div>
+        </div>
+    </div>
+</body>
+
+{% include footer.html %}
+
+</html>

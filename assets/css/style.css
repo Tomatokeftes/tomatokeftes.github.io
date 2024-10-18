@@ -1,0 +1,23 @@
+p a,
+#publications ul a,
+#positions ul a {
+    text-decoration: none !important;
+    color: rgb(115, 144, 195) !important;
+}
+
+#publications li {
+    margin-bottom: 1em;
+}
+
+#publications ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.container {
+    max-width: 767px;
+}
+
+.navbar {
+    padding: 0.5rem 0;
+}

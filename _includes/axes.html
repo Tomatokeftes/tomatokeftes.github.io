@@ -1,0 +1,20 @@
+<h1 class="mb-3 mt-4 display-4" style="font-size: x-large;">Research Axes</h1>
+
+<div class="card border-0">
+  {% for post in site.tags.project %}
+  {% if post.url %}
+  <div class="row g-0 p-1 m-1">
+    <div class="d-flex align-items-center col-12 col-sm-3">
+      <img src="{{ post.image }}" class="img-fluid rounded-start rounded" alt="...">
+    </div>
+    <div class="col-12 col-sm-9">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">{{ post.short_desc }}</p>
+        <a href="/research/#{{ post.title }}" class="btn btn-light">More Details</a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>

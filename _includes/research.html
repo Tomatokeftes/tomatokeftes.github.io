@@ -1,0 +1,27 @@
+{% for category in site.categories reversed %}
+
+<p class="mt-3"><strong>{{category | first }}</strong></p>
+
+<div id="{{ category | first }}" class="list-group">
+  {% for post in category.last %}
+
+  <a href="{{post.url}}" class="btn-light mb-3">
+
+    <div class="row g-0 p-1 m-1">
+      <div class="col-12 col-sm-4 d-flex align-items-center">
+        <img src="{{ post.image }}" class="img-fluid rounded" alt="...">
+      </div>
+      <div class="col-12 col-sm-8">
+        <div class="card-body">
+          <span class="card-title">{{ post.title }}</span>
+        </div>
+      </div>
+    </div>
+
+  </a>
+
+
+  {% endfor %}
+</div>
+
+{% endfor %}
