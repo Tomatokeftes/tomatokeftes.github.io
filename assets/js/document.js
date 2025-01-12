@@ -27,10 +27,17 @@ $(document).ready(function () {
                     let doi_url = doi ? doi.textContent : "#";
 
                     // Extract publication date
-                    let year = summary.querySelector("common\\:publication-date common\\:year").textContent;
-                    let month = summary.querySelector("common\\:publication-date common\\:month")?.textContent || "";
-                    let day = summary.querySelector("common\\:publication-date common\\:day")?.textContent || "";
+                    let yearElement = summary.querySelector("common\\:publication-date common\\:year");
+                    let year = yearElement ? yearElement.textContent : "N/A";
+                    
+                    let monthElement = summary.querySelector("common\\:publication-date common\\:month");
+                    let month = monthElement ? monthElement.textContent : "";
+                    
+                    let dayElement = summary.querySelector("common\\:publication-date common\\:day");
+                    let day = dayElement ? dayElement.textContent : "";
+                    
                     let date = `${year}-${month}-${day}`.replace(/-$/, "").replace(/-$/, ""); // Format date
+                    
 
                     // Extract journal title
                     let journal = summary.getElementsByTagName("work:journal-title")[0]?.textContent || "Unknown Journal";
