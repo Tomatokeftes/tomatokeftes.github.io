@@ -36,8 +36,5 @@ doi = {10.1021/jasms.4c00353},
 URL = { 
     
         https://doi.org/10.1021/jasms.4c00353
-    
-    
-
 }}
 </pre>

@@ -1,52 +1,56 @@
-// $(document).ready(function () {
-//     if (top.location.pathname === '/research/') {
-//         var x = new XMLHttpRequest();
-//         // Change the link to the appropriate one.
-//         x.open("GET", "######", true);
-//         x.onreadystatechange = function () {
-//             if (x.readyState == 4 && x.status == 200) {
-//                 var publications = x.responseXML;
-//                 var r = publications.getElementsByTagName("r");
-//                 var html_str = '<ul>';
+$(document).ready(function () {
+    if (top.location.pathname === '/publications/') {
+        fetch("https://pub.orcid.org/v3.0/0009-0003-5579-5488/works", {
+            headers: { "Accept": "application/xml" }
+        })
+        .then(response => response.text())
+        .then(xmlString => {
+            // Parse the XML
+            let parser = new DOMParser();
+            let xml = parser.parseFromString(xmlString, "application/xml");
 
-//                 for (var i = 0; i < r.length; i++) {
-//                     html_str += "<li>"
-//                     console.log(r[i].innerHTML);
+            // Extract publication groups
+            let groups = xml.getElementsByTagName("activities:group");
+            let html_str = '<ul>';
 
-//                     var authors = r[i].getElementsByTagName('author');
-//                     var authors_str = ''
-//                     for (var j = 0; j < authors.length; j++) {
-//                         authors_str += authors[j].innerHTML
-//                         if (j < authors.length - 1) {
-//                             authors_str += ', '
-//                         } else {
-//                             authors_str += ';'
-//                         }
-//                     }
-//                     html_str += authors_str
+            for (let i = 0; i < groups.length; i++) {
+                let summaries = groups[i].getElementsByTagName("work:work-summary");
 
-//                     var title_str = " " + r[i].getElementsByTagName('title')[0].innerHTML;
-//                     var doi = r[i].getElementsByTagName('ee')[0].innerHTML;
+                for (let j = 0; j < summaries.length; j++) {
+                    let summary = summaries[j];
 
-//                     html_str += "<strong> <i> <a href='" + doi + "' target='_blank'>" + title_str + "</a> </i> </strong>;"
+                    // Extract title
+                    let title = summary.getElementsByTagName("common:title")[0].textContent;
 
-//                     var journal = r[i].getElementsByTagName('journal')[0];
-//                     if (!journal) {
-//                         var journal = r[i].getElementsByTagName('booktitle')[0];
-//                     }
-//                     html_str += " " + journal.innerHTML + " ";
+                    // Extract DOI URL
+                    let doi = summary.querySelector("common\\:external-id-url, external-id-url");
+                    let doi_url = doi ? doi.textContent : "#";
 
-//                     var year = r[i].getElementsByTagName('year')[0];
-//                     html_str += year.innerHTML + '.';
+                    // Extract publication date
+                    let year = summary.querySelector("common\\:publication-date common\\:year").textContent;
+                    let month = summary.querySelector("common\\:publication-date common\\:month")?.textContent || "";
+                    let day = summary.querySelector("common\\:publication-date common\\:day")?.textContent || "";
+                    let date = `${year}-${month}-${day}`.replace(/-$/, "").replace(/-$/, ""); // Format date
 
-//                     html_str += "</li>";
-//                 }
-//                 html_str += "</ul>";
-//             }
-//             $('#publications').html(html_str);
-//         };
-//         x.send(null);
-//     }
+                    // Extract journal title
+                    let journal = summary.getElementsByTagName("work:journal-title")[0]?.textContent || "Unknown Journal";
 
+                    // Build HTML
+                    html_str += `
+                        <li>
+                            <strong><a href="${doi_url}" target="_blank">${title}</a></strong>
+                            <br>${journal} (${date})
+                        </li>
+                    `;
+                }
+            }
 
-// });
+            html_str += '</ul>';
+            $('#publications').html(html_str);
+        })
+        .catch(error => {
+            console.error("Error fetching ORCID data:", error);
+            $('#publications').html('<p>Unable to load publications at this time.</p>');
+        });
+    }
+});
