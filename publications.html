@@ -1,0 +1,28 @@
+{% if include.axis %}
+{% assign publications = site.publications | where_exp: "post", "post.categories contains include.axis" | sort: 'date' |
+reverse %}
+{% else %}
+{% assign publications = site.publications | sort: 'date' | reverse %}
+{% endif %}
+
+{% assign limit_value = include.limit | default: publications.size %}
+
+<div class="list-group">
+  {% for post in publications limit: limit_value %}
+  <a href="{{ post.url }}" class="btn-light mb-3">
+    <div class="row g-0 p-1 m-1">
+      <div class="col-12 col-sm-4 d-flex align-items-center">
+        <img src="{{ post.image }}" class="img-fluid rounded" alt="{{ post.title }}">
+      </div>
+      <div class="col-12 col-sm-8">
+        <div class="card-body">
+          <span class="card-title">{{ post.title }}</span>
+          {% if post.published_at %}
+          <p><span class="badge badge-secondary card-text">{{ post.published_at }}</span></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>

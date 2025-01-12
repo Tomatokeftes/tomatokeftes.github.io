@@ -23,6 +23,9 @@ The current focus of my PhD is single-cell multi-omics data integration, analysi
 </p> -->
 
 {% include news.html %}
+
+<h1 class="mt-4 mb-5 display-4" style="font-size: x-large;">Latest Publications</h1>
+{% include publications.html limit=4%}
 <!-- {% include papers.html %} -->
 <!-- {% include axes.html %} -->
 
