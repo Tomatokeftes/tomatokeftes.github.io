@@ -17,8 +17,8 @@ layout: default
     {%- if page.code %}<li><a href="{{ page.code }}">Code</a></li>{% endif %}
     {%- if page.data %}<li><a href="{{ page.data }}">Data</a></li>{% endif %}
   </ul>
-  {%- if page.image %}
-  <figure class="pub-detail__figure"><img src="{{ page.image | relative_url }}" alt="Graphical abstract of {{ page.title | escape }}"></figure>
+  {%- if page.figure %}
+  <figure class="pub-detail__figure"><img src="{{ page.figure | relative_url }}" alt="Graphical abstract of {{ page.title | escape }}"></figure>
   {%- endif %}
   {%- assign abstract = content | strip %}
   {%- if abstract != "" %}

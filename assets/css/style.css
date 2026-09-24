@@ -126,6 +126,14 @@ a:hover {
   fill: currentColor;
 }
 
+.icon--line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* ---------- Header and footer ---------- */
 
 .site-header {

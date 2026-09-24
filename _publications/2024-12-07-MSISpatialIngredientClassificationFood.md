@@ -7,7 +7,8 @@ citation: "36(1), 100–107"
 year: 2025
 date: 2024-12-07
 doi: "10.1021/jasms.4c00353"
-image: /assets/img/MSIPlantClassification2024.jpeg
+figure: /assets/img/MSIPlantClassification2024.jpeg # graphical abstract, shown with the abstract
+image: /assets/img/MSIPlantClassification2024.jpeg # the picture link previews show
 bibtex: |
   @article{vats2025mass,
     title   = {Mass Spectrometry Imaging for Spatial Ingredient Classification in Plant-Based Food},

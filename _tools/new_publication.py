@@ -1,12 +1,18 @@
 """Add a paper to the site's publication list, from its DOI.
 
     python _tools/new_publication.py 10.1038/s41592-026-03155-1
+    python _tools/new_publication.py --orcid 0009-0003-5579-5488
 
 Looks the DOI up on Crossref and writes _publications/<date>-<words>.md with
 the title, authors, venue, citation and a BibTeX entry. Check the new file
-before committing: set a short venue name for the badge, and add links to a
-preprint, code or data where there are any. Text below the front matter is
-shown as the abstract. Pass --stdout to print the entry instead of writing it.
+before committing: set a short venue name for the label above the title, and
+add links to a preprint, code or data where there are any. Text below the front
+matter is shown as the abstract. Pass --stdout to print the entry instead of
+writing it.
+
+With --orcid it adds every paper on that ORCID record the site does not list
+yet, leaving out preprints of papers it already lists. The monthly workflow in
+.github/workflows/new-publications.yml runs it that way.
 """
 
 import argparse
@@ -14,10 +20,12 @@ import json
 import re
 import sys
 import unicodedata
+import urllib.error
 import urllib.request
 from pathlib import Path
 
 SITE = Path(__file__).resolve().parent.parent
+FOLDER = SITE / "_publications"
 ME = "Visvikis"  # family name kept when a long author list is shortened
 MAX_AUTHORS = 10  # author lists longer than this are shortened for display
 STOP_WORDS = {
@@ -84,9 +92,9 @@ def author_line(authors):
     return ", ".join(parts), len(names)
 
 
-def entry(doi):
-    """The file name and text of the publication entry for a DOI."""
-    m = crossref(doi)
+def entry(doi, m=None):
+    """The file name and text of the publication entry for a DOI (m: its Crossref record, if already fetched)."""
+    m = m or crossref(doi)
     title = " ".join(m["title"][0].split())
     authors = people(m)
     shown, count = author_line(authors)
@@ -156,24 +164,76 @@ def entry(doi):
     return name, "\n".join(lines) + "\n"
 
 
+def clean_doi(doi):
+    return re.sub(r"^(https?://(dx\.)?doi\.org/|doi:)", "", doi.strip(), flags=re.I)
+
+
+def listed(doi):
+    """The publication file that already mentions this DOI (as its paper, preprint or data), if any."""
+    for existing in FOLDER.glob("*.md"):
+        if doi.lower() in existing.read_text(encoding="utf-8").lower():
+            return existing
+    return None
+
+
+def orcid_dois(orcid):
+    """The DOIs of the works on a public ORCID record."""
+    request = urllib.request.Request(
+        f"https://pub.orcid.org/v3.0/{orcid}/works",
+        headers={"Accept": "application/json", "User-Agent": "tomatokeftes.github.io publication helper"},
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        works = json.load(response)
+    return sorted({
+        clean_doi(ext["external-id-value"]).lower()
+        for group in works.get("group", [])
+        for ext in (group.get("external-ids") or {}).get("external-id", [])
+        if ext.get("external-id-type") == "doi"
+    })
+
+
+def add_from_orcid(orcid):
+    """Write an entry for every paper on the ORCID record the site does not list yet."""
+    for doi in orcid_dois(orcid):
+        if listed(doi):
+            continue
+        try:
+            message = crossref(doi)
+        except urllib.error.HTTPError:
+            print(f"Skipped {doi}: not on Crossref (a dataset, perhaps)")
+            continue
+        journal_versions = (message.get("relation") or {}).get("is-preprint-of") or []
+        if any(listed(v["id"]) for v in journal_versions):
+            continue
+        name, text = entry(doi, message)
+        path = FOLDER / name
+        path.write_text(text, encoding="utf-8")
+        print(f"Added {path.relative_to(SITE).as_posix()}: {' '.join(message['title'][0].split())}")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("doi", help="the paper's DOI, with or without https://doi.org/")
+    parser.add_argument("doi", nargs="?", help="the paper's DOI, with or without https://doi.org/")
+    parser.add_argument("--orcid", metavar="ID", help="add the papers on this ORCID record that the site lacks")
     parser.add_argument("--stdout", action="store_true", help="print the entry instead of writing it")
     args = parser.parse_args()
-    doi = re.sub(r"^(https?://(dx\.)?doi\.org/|doi:)", "", args.doi.strip(), flags=re.I)
+    if bool(args.doi) == bool(args.orcid):
+        parser.error("give a DOI, or --orcid")
+    if args.orcid:
+        add_from_orcid(args.orcid)
+        return
 
+    doi = clean_doi(args.doi)
     name, text = entry(doi)
     if args.stdout:
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stdout.write(text)
         return
 
-    folder = SITE / "_publications"
-    for existing in folder.glob("*.md"):
-        if doi.lower() in existing.read_text(encoding="utf-8").lower():
-            sys.exit(f"{doi} is already listed in {existing.relative_to(SITE)}")
-    path = folder / name
+    existing = listed(doi)
+    if existing:
+        sys.exit(f"{doi} is already listed in {existing.relative_to(SITE)}")
+    path = FOLDER / name
     path.write_text(text, encoding="utf-8")
     print(f"Wrote {path.relative_to(SITE)}")
 

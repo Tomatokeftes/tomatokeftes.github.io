@@ -9,7 +9,8 @@ year: 2024
 date: 2024-10-25
 doi: "10.1021/jasms.4c00324"
 preprint: "https://doi.org/10.26434/chemrxiv-2024-tk2vl"
-image: /assets/img/RF_Tutorial2024.jpeg
+figure: /assets/img/RF_Tutorial2024.jpeg # graphical abstract, shown with the abstract
+image: /assets/img/RF_Tutorial2024.jpeg # the picture link previews show
 bibtex: |
   @article{shamraeva2024application,
     title   = {The Application of a Random Forest Classifier to ToF-SIMS Imaging Data},

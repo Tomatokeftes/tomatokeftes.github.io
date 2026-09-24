@@ -9,7 +9,11 @@ title: Theodoros Visvikis
     <p class="hero__lede">Mass spectrometry imaging, spatial multi-omics, and the open-source software that brings them together.</p>
     <ul class="textlinks">
       {%- for profile in site.profiles %}
+      {%- if profile.email %}
+      <li class="js-only"><a href="#" data-email="{{ site.email_reversed }}">{% include icon.html name=profile.icon %}{{ profile.label }}</a></li>
+      {%- else %}
       <li><a href="{{ profile.url }}">{% include icon.html name=profile.icon %}{{ profile.label }}</a></li>
+      {%- endif %}
       {%- endfor %}
     </ul>
   </div>
@@ -69,13 +73,16 @@ title: Theodoros Visvikis
   <h2 class="scroll__label" id="about-title">About</h2>
   <div class="scroll__body prose">
     <p>
-      I am a PhD candidate at <a href="https://www.maastrichtuniversity.nl/research/maastricht-multimodal-molecular-imaging-institute-%E2%80%93-m4i" target="_blank">M4i</a>, <a href="https://www.maastrichtuniversity.nl/" target="_blank">Maastricht University</a> in Netherlands in the group of <a href="https://cris.maastrichtuniversity.nl/en/persons/eva-cuypers" target="_blank">Eva Cuypers</a> with a main focus on single-cell multi-omics data integration, analysis, and management.
+      I am a PhD candidate at <a href="https://www.maastrichtuniversity.nl/research/maastricht-multimodal-molecular-imaging-institute-%E2%80%93-m4i">M4i</a>, <a href="https://www.maastrichtuniversity.nl/">Maastricht University</a>, in the group of <a href="https://cris.maastrichtuniversity.nl/en/persons/eva-cuypers">Eva Cuypers</a>. I work on single-cell multi-omics data integration, analysis and management, and above all on bringing mass spectrometry imaging (MSI) into it.
     </p>
     <p>
-      I received my Bachelor's diploma in Science at the Maastricht Science Program, with a main focus on analytical chemistry, performing my bachelor's thesis under the supervision of <a href="https://www.maastrichtuniversity.nl/m-honing" target="_blank">Maarten Honing</a>, with a main focus on the use of liquid chromatography, mass spectrometry, and ion mobility spectrometry. After graduating, I worked for a year of working under Maarten Honing, completing the results of the thesis, and working in the development of flow chemistry sensors to be used for process analytical technologies. Soon after, I started my Master's degree at Maastricht University <a href="https://curriculum.maastrichtuniversity.nl/education/master/imaging-engineering" target="_blank">Molecular Imaging &amp; Engineering</a>, graduating with a thesis under the supervision of <a href="https://www.maastrichtuniversity.nl/prof-ron-heeren" target="_blank">Ron Heeren</a> &amp; Maarten Honing. There, I focused on the application of imaging technologies, chiefly Mass Spectrometry Imaging (MSI), and how to apply this technique in food science to investigate the spatial molecular heterogeneity of non-animal-based meat alternatives. In parallel, I got familiar with the application of machine learning approaches in the data analysis, picking an interest in the field of imaging data analysis &amp; management.
+      MSI can add a breadth of molecular information to multi-omics, but only once its data fits into the frameworks the rest of the field already uses. Much of my work is the software for that: <a href="https://github.com/M4i-Imaging-Mass-Spectrometry/thyra">Thyra</a>, which converts MSI data into the SpatialData format, and contributions to <a href="https://github.com/scverse/spatialdata">spatialdata</a>, <a href="https://github.com/scverse/spatialdata-io">spatialdata-io</a> and <a href="https://github.com/zarr-developers/zarr-python">zarr-python</a>.
     </p>
     <p>
-      The current focus of my PhD is single-cell multi-omics data integration, analysis, and management. I believe that MSI can greatly expand on the field of multi-omics, as it can provide a breadth of additional molecular information, however, lots of work is necessary to integrate the data into existing multi-omics frameworks and perform data analysis.
+      Before the PhD, I studied analytical chemistry at the Maastricht Science Program, with a bachelor's thesis under <a href="https://www.maastrichtuniversity.nl/m-honing">Maarten Honing</a> on liquid chromatography, mass spectrometry and ion mobility spectrometry. I then spent a year in his group finishing that work and developing flow chemistry sensors for process analytical technology. For my master's in <a href="https://curriculum.maastrichtuniversity.nl/education/master/imaging-engineering">Molecular Imaging &amp; Engineering</a> at Maastricht University, supervised by <a href="https://www.maastrichtuniversity.nl/prof-ron-heeren">Ron Heeren</a> and Maarten Honing, I used MSI to map the spatial molecular heterogeneity of plant-based meat alternatives, and picked up machine learning for imaging data along the way.
+    </p>
+    <p class="js-only">
+      You can reach me at <a href="#" data-email="{{ site.email_reversed }}" data-email-text>my university address</a>.
     </p>
   </div>
 </section>

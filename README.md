@@ -11,10 +11,13 @@ Personal site of Theodoros Visvikis, published at https://tomatokeftes.github.io
   ```
 
   Then check the new file: set `venue_short` (the small label above the title), and add `preprint`, `code` or `data` links if there are any. Text below the front matter is shown as the abstract.
+
+  On the 1st of every month, a workflow (`.github/workflows/new-publications.yml`) runs the same script with `--orcid` and opens a pull request with any papers on ORCID that the site lacks. Check the new files and merge it to publish them.
 - **News:** one file per item in `_news/`, with a `date` and a sentence or two of Markdown. If the item announces a paper, give it the paper's `doi` too, so the home page lists the paper only once.
 - **Software:** `_data/software.yml`.
-- **Name, menu and profile links:** `_config.yml`.
+- **Name, menu and profile links:** `_config.yml`. The email address is stored backwards there (`email_reversed`) and turned round in the visitor's browser, which keeps it away from most address harvesters.
 - **Look:** `assets/css/style.css`.
+- **Link previews:** `assets/img/social-card.png`, the picture LinkedIn, Slack and others show when the site is shared. `python _tools/social_card.py` draws it again (needs Edge or Chrome).
 - **Mountains in the footer:** the ink of two Song paintings from The Met (public domain): *Summer Mountains*, attributed to Qu Ding (`assets/img/mountains-summer.webp`), and *Cloudy Mountains* by Mi Youren (`assets/img/mountains-cloudy.webp`). A page picks one with `mountains: summer` or `mountains: cloudy` in its front matter; the defaults are in `_config.yml` and the credits in `_data/mountains.yml`. `python _tools/ink_mountains.py` makes the images again, for example with a different crop.
 
 ## Preview

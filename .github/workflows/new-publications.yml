@@ -1,0 +1,50 @@
+# Once a month, look up the papers on the ORCID record and open a pull request that adds
+# any the site does not list yet (see _tools/new_publication.py). Nothing reaches the live
+# site until the pull request is merged. It can also be started by hand from the Actions tab.
+name: New publications
+
+on:
+  schedule:
+    - cron: "17 6 1 * *" # the 1st of every month, 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add papers from ORCID
+        run: python3 _tools/new_publication.py --orcid 0009-0003-5579-5488 | tee added.txt
+
+      - name: Open a pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain _publications)" ]; then
+            echo "No new papers."
+            exit 0
+          fi
+          branch=new-publications
+          if gh pr view "$branch" --json state --jq .state 2>/dev/null | grep -q OPEN; then
+            echo "A pull request for new papers is already open; merge or close it first."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add _publications
+          git commit -m "Add new papers from ORCID"
+          git push --force origin "$branch"
+          {
+            echo "New papers on ORCID that the site does not list yet:"
+            echo
+            grep '^Added' added.txt | sed 's/^Added /- /'
+            echo
+            echo "Before merging, check each new file: shorten a long author list, set venue_short, and add preprint, code or data links. A news item is optional."
+          } > body.md
+          gh pr create --head "$branch" --title "New papers from ORCID" --body-file body.md

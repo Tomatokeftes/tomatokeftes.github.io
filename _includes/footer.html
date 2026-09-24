@@ -10,7 +10,11 @@
       </div>
       <ul class="footer-links">
         {%- for profile in site.profiles %}
+        {%- if profile.email %}
+        <li class="js-only"><a href="#" data-email="{{ site.email_reversed }}" aria-label="{{ profile.label }}" title="{{ profile.label }}">{% include icon.html name=profile.icon %}</a></li>
+        {%- else %}
         <li><a href="{{ profile.url }}" aria-label="{{ profile.label }}" title="{{ profile.label }}">{% include icon.html name=profile.icon %}</a></li>
+        {%- endif %}
         {%- endfor %}
       </ul>
     </div>

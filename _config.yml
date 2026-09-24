@@ -12,6 +12,10 @@ author:
   name: Theodoros Visvikis
   short: T. Visvikis # shown in bold in author lists
 
+# The contact address, written backwards so that address harvesters reading the pages
+# (or this file) don't recognise it; the site turns it round in the visitor's browser.
+email_reversed: "ln.ytisrevinuthcirtsaam@sikivsiv.t"
+
 # Menu at the top of every page
 nav:
   - title: Publications
@@ -21,7 +25,8 @@ nav:
   - title: News
     url: /news/
 
-# Profile links on the home page and in the footer. Icons: github, scholar, orcid, linkedin
+# Profile links on the home page and in the footer. Icons: github, scholar, orcid, linkedin, mail.
+# The entry with `email: true` links to the address above instead of a url.
 profiles:
   - label: GitHub
     icon: github
@@ -35,6 +40,9 @@ profiles:
   - label: LinkedIn
     icon: linkedin
     url: https://www.linkedin.com/in/theodoros-visvikis/
+  - label: Email
+    icon: mail
+    email: true
 
 plugins:
   - jekyll-seo-tag
@@ -47,6 +55,7 @@ collections:
   publications:
     output: true
 
+# image: the picture link previews show (a paper with a graphical abstract shows that instead)
 # mountains: the painting at the foot of a page (see _data/mountains.yml)
 defaults:
   - scope:
@@ -54,12 +63,19 @@ defaults:
       type: publications
     values:
       layout: publication
+      image:
+        path: /assets/img/social-card.png # made by _tools/social_card.py
+        width: 1200
+        height: 630
       mountains: cloudy
   - scope:
       path: ""
       type: pages
     values:
-      image: /assets/img/img1.jpeg
+      image:
+        path: /assets/img/social-card.png # made by _tools/social_card.py
+        width: 1200
+        height: 630
       mountains: summer
 
 exclude:
