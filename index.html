@@ -1,0 +1,81 @@
+---
+layout: page
+title: Theodoros Visvikis
+---
+<section class="hero">
+  <div>
+    <h1 class="hero__name">Theodoros<br>Visvikis</h1>
+    <p class="hero__role">PhD candidate, M4i, Maastricht University</p>
+    <p class="hero__lede">Mass spectrometry imaging, spatial multi-omics, and the open-source software that brings them together.</p>
+    <ul class="textlinks">
+      {%- for profile in site.profiles %}
+      <li><a href="{{ profile.url }}">{% include icon.html name=profile.icon %}{{ profile.label }}</a></li>
+      {%- endfor %}
+    </ul>
+  </div>
+  <figure class="mount">
+    <img src="{{ '/assets/img/imgportrait.jpeg' | relative_url }}" alt="Portrait of Theodoros Visvikis" width="792" height="1090" fetchpriority="high">
+  </figure>
+</section>
+
+{%- assign featured = site.data.software.projects | where: "featured", true | first %}
+<section class="scroll" aria-labelledby="software-title">
+  <h2 class="scroll__label" id="software-title">Software</h2>
+  <div class="scroll__body">
+    <div class="feature">
+      <a href="https://github.com/{{ featured.repo }}"><img class="feature__logo" src="{{ featured.logo | relative_url }}" alt="{{ featured.name }}"></a>
+      <div>
+        <p class="feature__desc">{{ featured.description }}</p>
+        <div class="codeblock codeblock--inline"><code>{{ featured.install }}</code><button class="copy" type="button" data-copy>Copy</button></div>
+        <ul class="textlinks">
+          <li><a href="https://github.com/{{ featured.repo }}">GitHub</a></li>
+          {%- for link in featured.links %}
+          <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+    <p class="more"><a href="{{ '/software/' | relative_url }}">All software and contributions</a></p>
+  </div>
+</section>
+
+{%- comment -%}
+  Recent papers and news, newest first. News items that announce a paper carry its doi and are left out, so each paper shows once.
+{%- endcomment -%}
+{%- assign other_news = site.news | where_exp: "item", "item.doi == nil" %}
+{%- assign recent = site.publications | concat: other_news | sort: "date" | reverse %}
+<section class="scroll" aria-labelledby="recent-title">
+  <h2 class="scroll__label" id="recent-title">Recent</h2>
+  <div class="scroll__body">
+    <ol class="news">
+      {%- for item in recent limit: 5 %}
+      <li class="recent">
+        <time datetime="{{ item.date | date: '%Y-%m-%d' }}">{{ item.date | date: "%b %Y" }}</time>
+        <div>
+          {%- if item.collection == "publications" %}
+          {% include pub-entry.html pub=item compact=true %}
+          {%- else %}
+          <div class="news__text">{{ item.content }}</div>
+          {%- endif %}
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+    <p class="more"><a href="{{ '/publications/' | relative_url }}">All publications</a> &middot; <a href="{{ '/news/' | relative_url }}">All news</a></p>
+  </div>
+</section>
+
+<section class="scroll" aria-labelledby="about-title">
+  <h2 class="scroll__label" id="about-title">About</h2>
+  <div class="scroll__body prose">
+    <p>
+      I am a PhD candidate at <a href="https://www.maastrichtuniversity.nl/research/maastricht-multimodal-molecular-imaging-institute-%E2%80%93-m4i" target="_blank">M4i</a>, <a href="https://www.maastrichtuniversity.nl/" target="_blank">Maastricht University</a> in Netherlands in the group of <a href="https://cris.maastrichtuniversity.nl/en/persons/eva-cuypers" target="_blank">Eva Cuypers</a> with a main focus on single-cell multi-omics data integration, analysis, and management.
+    </p>
+    <p>
+      I received my Bachelor's diploma in Science at the Maastricht Science Program, with a main focus on analytical chemistry, performing my bachelor's thesis under the supervision of <a href="https://www.maastrichtuniversity.nl/m-honing" target="_blank">Maarten Honing</a>, with a main focus on the use of liquid chromatography, mass spectrometry, and ion mobility spectrometry. After graduating, I worked for a year of working under Maarten Honing, completing the results of the thesis, and working in the development of flow chemistry sensors to be used for process analytical technologies. Soon after, I started my Master's degree at Maastricht University <a href="https://curriculum.maastrichtuniversity.nl/education/master/imaging-engineering" target="_blank">Molecular Imaging &amp; Engineering</a>, graduating with a thesis under the supervision of <a href="https://www.maastrichtuniversity.nl/prof-ron-heeren" target="_blank">Ron Heeren</a> &amp; Maarten Honing. There, I focused on the application of imaging technologies, chiefly Mass Spectrometry Imaging (MSI), and how to apply this technique in food science to investigate the spatial molecular heterogeneity of non-animal-based meat alternatives. In parallel, I got familiar with the application of machine learning approaches in the data analysis, picking an interest in the field of imaging data analysis &amp; management.
+    </p>
+    <p>
+      The current focus of my PhD is single-cell multi-omics data integration, analysis, and management. I believe that MSI can greatly expand on the field of multi-omics, as it can provide a breadth of additional molecular information, however, lots of work is necessary to integrate the data into existing multi-omics frameworks and perform data analysis.
+    </p>
+  </div>
+</section>

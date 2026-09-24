@@ -1,0 +1,72 @@
+# Projects: shown on the Software page. The one marked featured is also shown on the home page.
+projects:
+  - name: Thyra
+    featured: true
+    logo: /assets/img/thyra-logotype.svg
+    repo: M4i-Imaging-Mass-Spectrometry/thyra
+    description: >-
+      Python library that converts mass spectrometry imaging data (imzML and
+      Bruker) into the SpatialData/Zarr format, so MSI can be analysed alongside
+      other spatial omics data.
+    language: Python
+    license: MIT
+    role: Author and maintainer
+    install: pip install thyra
+    links:
+      - label: Documentation
+        url: https://m4i-imaging-mass-spectrometry.github.io/thyra/
+      - label: PyPI
+        url: https://pypi.org/project/thyra/
+      - label: Paper
+        url: https://doi.org/10.1021/jasms.6c00169
+
+  - name: MALDI-MSI and Xenium overlay
+    repo: M4i-Imaging-Mass-Spectrometry/MALDI-MSI---Spatial-Transcriptomics-Overlay
+    description: >-
+      Prepares 10x Xenium spatial transcriptomics output (expression, clusters
+      and cell outlines) for overlay with MALDI-MSI. The code behind "One
+      section, two worlds" in Scientific Reports.
+    language: Python
+    role: Author
+    links:
+      - label: Paper
+        url: https://doi.org/10.1038/s41598-025-26735-1
+
+# Contributions: pull requests to other open-source projects, on the Software page.
+# status is merged or open; update it when an open pull request is merged or closed.
+contributions:
+  - name: zarr-python
+    org: zarr-developers
+    repo: zarr-developers/zarr-python
+    description: Chunked, compressed N-dimensional arrays for Python.
+    pull_requests:
+      - number: 4358
+        title: Retry the LocalStore rename when the destination is busy
+        status: merged
+      - number: 4305
+        title: Fix an infinite loop when choosing shard chunks for 0-dimensional arrays
+        status: merged
+
+  - name: spatialdata
+    org: scverse
+    repo: scverse/spatialdata
+    description: An open and interoperable data framework for spatial omics data.
+    pull_requests:
+      - number: 1184
+        title: Keep the AnnData encoding metadata on the table group
+        status: merged
+      - number: 1199
+        title: Add `table_shard_size_bytes` to control the Zarr shard size of tables
+        status: open
+      - number: 1055
+        title: Lazy table loading with `anndata.experimental.read_lazy`
+        status: open
+
+  - name: spatialdata-io
+    org: scverse
+    repo: scverse/spatialdata-io
+    description: Readers that load spatial omics technologies into SpatialData.
+    pull_requests:
+      - number: 405
+        title: Import the Xenium onboard analysis (clustering, PCA, UMAP, differential expression) into the table
+        status: open

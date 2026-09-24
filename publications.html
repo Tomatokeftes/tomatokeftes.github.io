@@ -1,0 +1,25 @@
+---
+layout: page
+title: Publications
+permalink: /publications/
+description: Papers by Theodoros Visvikis on mass spectrometry imaging, spatial omics and their data analysis.
+redirect_from:
+  - /research/
+mountains: cloudy
+---
+{%- assign scholar = site.profiles | where: "icon", "scholar" | first -%}
+{%- assign orcid = site.profiles | where: "icon", "orcid" | first -%}
+<p class="page-intro">{{ site.publications | size }} papers, newest first. Also on <a href="{{ scholar.url }}">Google Scholar</a> and <a href="{{ orcid.url }}">ORCID</a>.</p>
+
+{%- assign pubs = site.publications | sort: "date" | reverse %}
+{%- assign years = pubs | group_by: "year" %}
+{%- for year in years %}
+<section class="scroll{% if forloop.first %} scroll--first{% endif %}" aria-labelledby="year-{{ year.name }}">
+  <h2 class="scroll__label" id="year-{{ year.name }}">{{ year.name }}</h2>
+  <div class="scroll__body">
+    {%- for pub in year.items %}
+    {% include pub-entry.html pub=pub %}
+    {%- endfor %}
+  </div>
+</section>
+{%- endfor %}

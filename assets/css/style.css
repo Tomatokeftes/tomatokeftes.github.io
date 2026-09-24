@@ -1,23 +1,968 @@
-p a,
-#publications ul a,
-#positions ul a {
-    text-decoration: none !important;
-    color: rgb(115, 144, 195) !important;
+/* ---------- Tokens ---------- */
+
+/* Song dynasty paper and ink, with the brand purple and brick of Thyra and Ousia */
+:root {
+  --paper: #f4eee3;
+  --paper-deep: #ece4d5;
+  --ink: #1f1b17;
+  --ink-2: #5c5247;
+  --ink-3: #6f6456;
+  --rule: #d8cdbb;
+  --rule-strong: #bfb09a;
+  --brick: #9a4b3d;
+  --purple: #792074;
+  --link-line: rgb(154 75 61 / 0.45);
+
+  /* ink of the mountains in the footer */
+  --mt-ink: #3a332c;
+
+  --display: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  --text: "EB Garamond", Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --wrap: 900px;
+  --gutter: 24px;
 }
 
-#publications li {
-    margin-bottom: 1em;
+/* dark mode: ink-dark paper with bright warm text and the light shades of the brand colours
+   (the text weight goes up too, at the end of this file) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1d1a17;
+    --paper-deep: #25211d;
+    --ink: #f2ebdf;
+    --ink-2: #ddd3c3;
+    --ink-3: #c2b6a2;
+    --rule: #3b342d;
+    --rule-strong: #564c42;
+    --brick: #e2c7bf;
+    --purple: #ddb5d9;
+    --link-line: rgb(226 199 191 / 0.45);
+
+    --mt-ink: #d9cdb9;
+  }
 }
 
-#publications ul {
-    list-style-type: none;
-    padding: 0;
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.container {
-    max-width: 767px;
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
-.navbar {
-    padding: 0.5rem 0;
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  font-variant-numeric: oldstyle-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--purple);
+  text-decoration: underline;
+  text-decoration-color: var(--link-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brick);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: calc(var(--wrap) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 12px;
+  z-index: 10;
+  padding: 8px 12px;
+  background: var(--paper-deep);
+  color: var(--ink);
+}
+
+.skip-link:focus {
+  left: 16px;
+}
+
+.smallcaps,
+.site-nav a,
+.textlinks,
+.label {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+}
+
+.icon {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+/* ---------- Header and footer ---------- */
+
+.site-header {
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 32px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--ink);
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 26px;
+}
+
+.site-nav a {
+  padding: 4px 0;
+  color: var(--ink-2);
+  font-size: 1.15rem;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+  border-bottom-color: var(--rule-strong);
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--brick);
+  border-bottom-color: var(--brick);
+}
+
+.site-footer {
+  margin-top: 40px;
+  color: var(--ink-3);
+  font-size: 1rem;
+}
+
+.site-footer__scape {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Brushwork from Song paintings (made by _tools/ink_mountains.py), used as a mask over the
+   ink colour, so it is dark on paper and light in dark mode. A page picks the painting with
+   `mountains:` in its front matter. */
+.mountains {
+  background: var(--mt-ink);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Summer Mountains, attributed to Qu Ding: contour and texture strokes */
+.mountains--summer {
+  width: min(100%, 560px);
+  aspect-ratio: 1120 / 517;
+  -webkit-mask-image: url("../img/mountains-summer.webp");
+  mask-image: url("../img/mountains-summer.webp");
+}
+
+/* Cloudy Mountains, by Mi Youren: a ridge of wet ink rising to sharp peaks, like a spectrum */
+.mountains--cloudy {
+  width: min(100%, 680px);
+  aspect-ratio: 1120 / 265;
+  -webkit-mask-image: url("../img/mountains-cloudy.webp");
+  mask-image: url("../img/mountains-cloudy.webp");
+}
+
+.site-footer .credit {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.credit a {
+  color: inherit;
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 20px 0 48px;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.footer-links {
+  display: flex;
+  gap: 6px;
+  margin: 0 -8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-links a {
+  display: flex;
+  padding: 8px;
+  color: var(--ink-3);
+}
+
+.footer-links a:hover {
+  color: var(--brick);
+}
+
+.footer-links .icon {
+  width: 19px;
+  height: 19px;
+}
+
+/* ---------- Page ---------- */
+
+.main {
+  padding-top: 64px;
+  padding-bottom: 48px;
+}
+
+.page-title {
+  margin: 0 0 14px;
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 2rem + 2vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.page-intro {
+  max-width: 34em;
+  margin: 0;
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+/* A section of the page, with its title set vertically in the margin like the title slip on a scroll */
+.scroll {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 0 44px;
+  margin-top: 84px;
+}
+
+.scroll--first {
+  margin-top: 56px;
+}
+
+.scroll__label {
+  align-self: start;
+  justify-self: center;
+  margin: 0;
+  padding: 16px 7px;
+  border: 1px solid var(--rule);
+  background: var(--paper-deep);
+  color: var(--brick);
+  font-family: var(--text);
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  font-variant-caps: all-small-caps;
+  font-variant-numeric: lining-nums;
+  writing-mode: vertical-rl;
+}
+
+.scroll__body {
+  min-width: 0;
+}
+
+.more {
+  margin: 26px 0 0;
+  font-size: 1.05rem;
+}
+
+.prose p {
+  margin: 0 0 1em;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Links in a row; their underlines keep them apart, so a wrapped line never starts with a separator */
+.textlinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 1.25em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1.1rem;
+}
+
+.textlinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.textlinks .icon {
+  color: var(--ink-3);
+}
+
+/* Abstract and BibTeX open in place: text buttons with a + or - after them, in ink rather than link colour */
+.toggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.toggle::after {
+  content: " +";
+  color: var(--brick);
+}
+
+.toggle[aria-expanded="true"]::after {
+  content: " \2212";
+}
+
+.toggle:hover {
+  color: var(--ink);
+}
+
+/* Without JavaScript the toggles are hidden and their panels shown in full */
+.js-only {
+  display: none;
+}
+
+.js .js-only {
+  display: block;
+}
+
+.js .panel:not(.is-open) {
+  display: none;
+}
+
+.label {
+  margin: 0;
+  color: var(--brick);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* ---------- Home ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 228px;
+  align-items: end;
+  gap: 64px;
+}
+
+.hero__name {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(3rem, 2.2rem + 3.4vw, 4.4rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.005em;
+}
+
+.hero__role {
+  margin: 14px 0 0;
+  color: var(--ink-2);
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.hero__lede {
+  max-width: 24em;
+  margin: 26px 0 26px;
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+
+/* A portrait mounted like a hanging scroll: wider silk above and below the picture */
+.mount {
+  position: relative;
+  margin: 0;
+  padding: 26px 13px 40px;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper-deep);
+}
+
+.mount img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 1px solid var(--rule-strong);
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  align-items: center;
+  gap: 36px;
+  padding: 30px 32px;
+  border: 1px solid var(--rule-strong);
+  outline: 1px solid var(--rule);
+  outline-offset: -8px;
+  background: var(--paper-deep);
+}
+
+.feature__logo {
+  width: 100%;
+}
+
+/* the Thyra logotype is dark purple, so lift it on the dark glaze, towards the brand's lighter shades */
+@media (prefers-color-scheme: dark) {
+  .feature__logo,
+  .project__logo {
+    filter: brightness(1.9) saturate(0.55);
+  }
+}
+
+.feature__desc {
+  margin: 0 0 16px;
+}
+
+/* ---------- News ---------- */
+
+.news {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.news__item,
+.recent {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.news__item:first-child,
+.recent:first-child {
+  padding-top: 0;
+}
+
+.news__item:last-child,
+.recent:last-child {
+  border-bottom: 0;
+}
+
+.news__item time,
+.recent time {
+  padding-top: 1px;
+  color: var(--ink-3);
+  font-size: 1.02rem;
+  letter-spacing: 0.06em;
+  font-variant-caps: all-small-caps;
+  white-space: nowrap;
+}
+
+.news__text {
+  color: var(--ink-2);
+}
+
+.recent .pub {
+  padding: 0;
+  border: 0;
+}
+
+.news__text p {
+  margin: 0;
+}
+
+.news__text p + p {
+  margin-top: 8px;
+}
+
+/* ---------- Publications ---------- */
+
+.pub {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.pub:first-child {
+  padding-top: 0;
+}
+
+.pub:last-child {
+  border-bottom: 0;
+}
+
+.pub__title {
+  margin: 2px 0 6px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.pub__title a {
+  color: var(--ink);
+  text-decoration-color: var(--rule);
+}
+
+.pub__title a:hover {
+  color: var(--purple);
+  text-decoration-color: var(--link-line);
+}
+
+.pub__authors,
+.pub__meta,
+.pub__note {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.pub__authors .me {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.pub__count,
+.pub__meta,
+.pub__note {
+  color: var(--ink-3);
+}
+
+.pub__count {
+  white-space: nowrap;
+}
+
+.pub .textlinks {
+  margin-top: 10px;
+}
+
+.panel {
+  margin-top: 16px;
+}
+
+.panel img {
+  margin-bottom: 16px;
+  border: 1px solid var(--rule-strong);
+  background: #fff;
+}
+
+.pub__abstract p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 1.08rem;
+}
+
+.pub-detail .page-title {
+  margin-top: 6px;
+  font-size: clamp(2rem, 1.6rem + 1.8vw, 2.7rem);
+}
+
+.pub-detail .pub__authors {
+  margin-top: 18px;
+  font-size: 1.12rem;
+}
+
+.pub-detail .pub__meta {
+  font-size: 1.12rem;
+}
+
+.pub-detail .textlinks {
+  margin-top: 16px;
+}
+
+.pub-detail__figure {
+  margin: 40px 0 0;
+}
+
+.pub-detail__figure img {
+  border: 1px solid var(--rule-strong);
+  background: #fff;
+}
+
+.pub-detail h2 {
+  margin: 48px 0 12px;
+  color: var(--brick);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  font-variant-caps: all-small-caps;
+}
+
+.back {
+  margin: 0 0 30px;
+  font-size: 1.05rem;
+}
+
+/* ---------- Code ---------- */
+
+.codeblock {
+  position: relative;
+  border: 1px solid var(--rule);
+  background: var(--paper-deep);
+}
+
+.codeblock pre {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  color: var(--ink-2);
+  font: 0.8rem/1.6 var(--mono);
+}
+
+.codeblock .copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.codeblock--inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 6px 6px 6px 14px;
+  background: var(--paper);
+}
+
+.codeblock--inline code {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font: 0.85rem/1.4 var(--mono);
+}
+
+.codeblock--inline code::before {
+  content: "$ ";
+  color: var(--ink-3);
+}
+
+.codeblock--inline .copy {
+  position: static;
+}
+
+.copy {
+  display: none;
+  padding: 3px 9px 5px;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper);
+  color: var(--ink-2);
+  font: 500 0.95rem/1 var(--text);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.js .copy {
+  display: inline-block;
+}
+
+.copy:hover,
+.copy.is-done {
+  border-color: var(--brick);
+  color: var(--brick);
+}
+
+/* ---------- Software ---------- */
+
+.projects {
+  display: grid;
+  gap: 20px;
+}
+
+.project {
+  display: grid;
+  gap: 14px;
+  padding: 26px 28px;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper-deep);
+}
+
+.project--featured {
+  outline: 1px solid var(--rule);
+  outline-offset: -8px;
+}
+
+.project__logo {
+  width: 190px;
+}
+
+.project__name {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.project__name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.project__repo {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 6px 0 0;
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.project__repo .icon {
+  width: 13px;
+  height: 13px;
+  margin-top: 2px;
+}
+
+.project__desc {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.project .codeblock--inline {
+  margin: 0;
+}
+
+.project__meta {
+  margin: 0;
+  color: var(--ink-3);
+  font-size: 1.05rem;
+}
+
+.contrib {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contrib__item {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.contrib__item:first-child {
+  padding-top: 0;
+}
+
+.contrib__item:last-child {
+  border-bottom: 0;
+}
+
+.contrib__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+.contrib__name {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contrib__org {
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+}
+
+.contrib__desc {
+  margin: 0 0 12px;
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+.contrib__prs {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contrib__prs li {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 14px;
+}
+
+.contrib__prs a {
+  color: var(--ink-2);
+  text-decoration-color: var(--rule-strong);
+}
+
+.contrib__prs a:hover {
+  color: var(--purple);
+}
+
+.contrib__prs code {
+  font-family: var(--mono);
+  font-size: 0.78em;
+}
+
+.status {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  font-variant-caps: all-small-caps;
+  white-space: nowrap;
+}
+
+.status--merged {
+  color: var(--brick);
+}
+
+.status--open {
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 760px) {
+  .main {
+    padding-top: 40px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 132px;
+    align-items: start;
+    gap: 24px;
+  }
+
+  .mount {
+    padding: 14px 8px 24px;
+  }
+
+  .scroll,
+  .scroll--first {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 60px;
+  }
+
+  .scroll__label {
+    justify-self: start;
+    margin-bottom: 20px;
+    padding: 6px 12px 7px;
+    writing-mode: horizontal-tb;
+  }
+
+  .feature {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 24px;
+  }
+
+  .feature__logo {
+    width: 170px;
+  }
+}
+
+@media (max-width: 520px) {
+  body {
+    font-size: 1.125rem;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mount {
+    width: 150px;
+  }
+
+  .news__item,
+  .recent {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .contrib__prs li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .project {
+    padding: 22px 20px;
+  }
+
+}
+
+/* ---------- Dark mode type ---------- */
+
+/* the fine strokes of a Garamond thin out on a dark ground, so the text is set a little heavier */
+@media (prefers-color-scheme: dark) {
+  body {
+    font-weight: 450;
+  }
+
+  .pub__authors .me {
+    font-weight: 650;
+  }
 }

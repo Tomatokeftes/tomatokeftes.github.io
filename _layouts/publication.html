@@ -1,0 +1,32 @@
+---
+layout: default
+---
+{%- capture me -%}<strong class="me">{{ site.author.short }}</strong>{%- endcapture -%}
+<article class="pub-detail">
+  <p class="back"><a href="{{ '/publications/' | relative_url }}">All publications</a></p>
+  <p class="label">{{ page.venue_short }} &middot; {{ page.year }}</p>
+  <h1 class="page-title">{{ page.title }}</h1>
+  <p class="pub__authors">{{ page.authors | replace: site.author.short, me }}{% if page.author_count %} <span class="pub__count">({{ page.author_count }} authors)</span>{% endif %}</p>
+  <p class="pub__meta"><cite>{{ page.venue }}</cite>{% if page.citation %} {{ page.citation }}{% endif %} ({{ page.year }})</p>
+  {%- if page.note %}
+  <p class="pub__note">{{ page.note }}</p>
+  {%- endif %}
+  <ul class="textlinks">
+    <li><a href="https://doi.org/{{ page.doi }}">Paper</a></li>
+    {%- if page.preprint %}<li><a href="{{ page.preprint }}">Preprint</a></li>{% endif %}
+    {%- if page.code %}<li><a href="{{ page.code }}">Code</a></li>{% endif %}
+    {%- if page.data %}<li><a href="{{ page.data }}">Data</a></li>{% endif %}
+  </ul>
+  {%- if page.image %}
+  <figure class="pub-detail__figure"><img src="{{ page.image | relative_url }}" alt="Graphical abstract of {{ page.title | escape }}"></figure>
+  {%- endif %}
+  {%- assign abstract = content | strip %}
+  {%- if abstract != "" %}
+  <h2>Abstract</h2>
+  <div class="prose pub__abstract">{{ content }}</div>
+  {%- endif %}
+  {%- if page.bibtex %}
+  <h2>Cite</h2>
+  <div class="codeblock"><pre><code>{{ page.bibtex | strip | xml_escape }}</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+  {%- endif %}
+</article>

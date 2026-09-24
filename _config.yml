@@ -1,10 +1,66 @@
 title: Theodoros Visvikis
-description: Theodoros Visvikis Homepage
-url: "http://tomatokeftes.github.io"
+tagline: Mass spectrometry imaging and spatial omics
+description: >-
+  PhD candidate at M4i, Maastricht University, working on mass spectrometry
+  imaging, spatial multi-omics data integration and open-source software.
+url: "https://tomatokeftes.github.io"
+baseurl: ""
+lang: en
+timezone: Europe/Amsterdam
 
-plugins: ['jekyll-twitter-plugin']
+author:
+  name: Theodoros Visvikis
+  short: T. Visvikis # shown in bold in author lists
+
+# Menu at the top of every page
+nav:
+  - title: Publications
+    url: /publications/
+  - title: Software
+    url: /software/
+  - title: News
+    url: /news/
+
+# Profile links on the home page and in the footer. Icons: github, scholar, orcid, linkedin
+profiles:
+  - label: GitHub
+    icon: github
+    url: https://github.com/Tomatokeftes
+  - label: Google Scholar
+    icon: scholar
+    url: https://scholar.google.com/citations?user=YciAJH0AAAAJ&hl=en
+  - label: ORCID
+    icon: orcid
+    url: https://orcid.org/0009-0003-5579-5488
+  - label: LinkedIn
+    icon: linkedin
+    url: https://www.linkedin.com/in/theodoros-visvikis/
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-redirect-from
+
 collections:
   news:
-    output: true
+    output: false
   publications:
     output: true
+
+# mountains: the painting at the foot of a page (see _data/mountains.yml)
+defaults:
+  - scope:
+      path: ""
+      type: publications
+    values:
+      layout: publication
+      mountains: cloudy
+  - scope:
+      path: ""
+      type: pages
+    values:
+      image: /assets/img/img1.jpeg
+      mountains: summer
+
+exclude:
+  - README.md

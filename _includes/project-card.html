@@ -1,0 +1,22 @@
+{%- assign project = include.project -%}
+<article class="project{% if project.featured %} project--featured{% endif %}">
+  <div>
+    <h3 class="project__name">
+      <a href="https://github.com/{{ project.repo }}">
+        {%- if project.logo -%}<img class="project__logo" src="{{ project.logo | relative_url }}" alt="{{ project.name }}">{%- else -%}{{ project.name }}{%- endif -%}
+      </a>
+    </h3>
+    <p class="project__repo">{% include icon.html name="github" %}<span>{{ project.repo }}</span></p>
+  </div>
+  <p class="project__desc">{{ project.description }}</p>
+  {%- if project.install %}
+  <div class="codeblock codeblock--inline"><code>{{ project.install }}</code><button class="copy" type="button" data-copy>Copy</button></div>
+  {%- endif %}
+  <p class="project__meta smallcaps">{{ project.language }}{% if project.license %} &middot; {{ project.license }} license{% endif %}{% if project.role %} &middot; {{ project.role }}{% endif %}</p>
+  <ul class="textlinks">
+    <li><a href="https://github.com/{{ project.repo }}">GitHub</a></li>
+    {%- for link in project.links %}
+    <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+    {%- endfor %}
+  </ul>
+</article>

@@ -1,0 +1,10 @@
+# The paintings the mountains at the foot of the pages come from (made by _tools/ink_mountains.py).
+# A page picks one with `mountains:` in its front matter; the defaults are in _config.yml.
+summer:
+  title: Summer Mountains
+  by: attributed to Qu Ding, about 1050
+  url: https://www.metmuseum.org/art/collection/search/39915
+cloudy:
+  title: Cloudy Mountains
+  by: by Mi Youren (1074&#8288;–&#8288;1151)  # &#8288; keeps the dates on one line
+  url: https://www.metmuseum.org/art/collection/search/40007

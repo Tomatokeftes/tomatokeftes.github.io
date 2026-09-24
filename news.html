@@ -1,0 +1,21 @@
+---
+layout: page
+title: News
+permalink: /news/
+description: News from Theodoros Visvikis.
+---
+{%- assign items = site.news | sort: "date" | reverse %}
+{%- assign years = items | group_by_exp: "item", "item.date | date: '%Y'" %}
+{%- for year in years %}
+<section class="scroll{% if forloop.first %} scroll--first{% endif %}" aria-labelledby="news-{{ year.name }}">
+  <h2 class="scroll__label" id="news-{{ year.name }}">{{ year.name }}</h2>
+  <ol class="scroll__body news">
+    {%- for item in year.items %}
+    <li class="news__item">
+      <time datetime="{{ item.date | date: '%Y-%m-%d' }}">{{ item.date | date: "%-d %b" }}</time>
+      <div class="news__text">{{ item.content }}</div>
+    </li>
+    {%- endfor %}
+  </ol>
+</section>
+{%- endfor %}

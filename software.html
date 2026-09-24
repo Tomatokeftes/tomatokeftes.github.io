@@ -1,0 +1,42 @@
+---
+layout: page
+title: Software
+permalink: /software/
+description: Open-source software by Theodoros Visvikis for mass spectrometry imaging and spatial omics.
+mountains: cloudy
+---
+<p class="page-intro">Tools I build to bring mass spectrometry imaging into the spatial omics ecosystem, and the open-source projects I contribute to.</p>
+
+<section class="scroll scroll--first" aria-labelledby="projects-title">
+  <h2 class="scroll__label" id="projects-title">Projects</h2>
+  <div class="scroll__body projects">
+    {%- for project in site.data.software.projects %}
+    {% include project-card.html project=project %}
+    {%- endfor %}
+  </div>
+</section>
+
+<section class="scroll" aria-labelledby="contrib-title">
+  <h2 class="scroll__label" id="contrib-title">Contributions</h2>
+  <div class="scroll__body">
+    <ul class="contrib">
+      {%- for project in site.data.software.contributions %}
+      <li class="contrib__item">
+        <div class="contrib__head">
+          <a class="contrib__name" href="https://github.com/{{ project.repo }}">{{ project.name }}</a>
+          <span class="contrib__org">{{ project.org }}</span>
+        </div>
+        <p class="contrib__desc">{{ project.description }}</p>
+        <ul class="contrib__prs">
+          {%- for pr in project.pull_requests %}
+          <li>
+            <span class="status status--{{ pr.status }}">{% if pr.status == "merged" %}Merged{% else %}In review{% endif %}</span>
+            <a href="https://github.com/{{ project.repo }}/pull/{{ pr.number }}">{{ pr.title | markdownify | remove: "<p>" | remove: "</p>" | strip }}</a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>

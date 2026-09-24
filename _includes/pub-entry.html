@@ -1,0 +1,41 @@
+{%- comment -%}
+  One publication. Pass compact=true for the short form used on the home page.
+{%- endcomment -%}
+{%- assign pub = include.pub -%}
+{%- assign pub_id = pub.id | slugify -%}
+{%- assign abstract = pub.content | strip -%}
+{%- capture me -%}<strong class="me">{{ site.author.short }}</strong>{%- endcapture -%}
+{%- capture links -%}
+  {%- if pub.preprint -%}<li><a href="{{ pub.preprint }}">Preprint</a></li>{%- endif -%}
+  {%- if pub.code -%}<li><a href="{{ pub.code }}">Code</a></li>{%- endif -%}
+  {%- if pub.data -%}<li><a href="{{ pub.data }}">Data</a></li>{%- endif -%}
+  {%- if abstract != "" -%}<li class="js-only"><button class="toggle" type="button" aria-expanded="false" aria-controls="{{ pub_id }}-abstract">Abstract</button></li>{%- endif -%}
+  {%- if pub.bibtex -%}<li class="js-only"><button class="toggle" type="button" aria-expanded="false" aria-controls="{{ pub_id }}-bibtex">BibTeX</button></li>{%- endif -%}
+{%- endcapture %}
+<article class="pub" id="{{ pub_id }}">
+  <p class="label">{{ pub.venue_short }}</p>
+  <h3 class="pub__title"><a href="https://doi.org/{{ pub.doi }}">{{ pub.title }}</a></h3>
+  <p class="pub__authors">{{ pub.authors | replace: site.author.short, me }}{% if pub.author_count %} <span class="pub__count">({{ pub.author_count }} authors)</span>{% endif %}</p>
+  {%- unless include.compact %}
+  <p class="pub__meta"><cite>{{ pub.venue }}</cite>{% if pub.citation %} {{ pub.citation }}{% endif %} ({{ pub.year }}){% if pub.type == "preprint" %}, preprint{% endif %}</p>
+  {%- if pub.note %}
+  <p class="pub__note">{{ pub.note }}</p>
+  {%- endif %}
+  {%- if links != "" %}
+  <ul class="textlinks">{{ links }}</ul>
+  {%- endif %}
+  {%- if abstract != "" %}
+  <div class="panel" id="{{ pub_id }}-abstract">
+    {%- if pub.image %}
+    <img src="{{ pub.image | relative_url }}" alt="Graphical abstract of {{ pub.title | escape }}" loading="lazy">
+    {%- endif %}
+    <div class="pub__abstract">{{ pub.content }}</div>
+  </div>
+  {%- endif %}
+  {%- if pub.bibtex %}
+  <div class="panel" id="{{ pub_id }}-bibtex">
+    <div class="codeblock"><pre><code>{{ pub.bibtex | strip | xml_escape }}</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+  </div>
+  {%- endif %}
+  {%- endunless %}
+</article>
