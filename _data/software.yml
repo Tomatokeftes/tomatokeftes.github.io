@@ -59,10 +59,12 @@ side_projects:
       - Signal processing
       - FastAPI
     language: Python
+    license: MIT
     role: Author
 
 # Contributions: pull requests to other open-source projects, on the Software page.
-# status is merged or open; update it when an open pull request is merged or closed.
+# status is merged or open. Kept up to date by _tools/new_contributions.py, which a monthly
+# workflow runs.
 contributions:
   - name: zarr-python
     org: zarr-developers
@@ -108,3 +110,7 @@ contributions:
       - number: 7
         title: Fix bugs across the pipeline
         status: merged
+
+# Pull requests that new_contributions.py should not add, as owner/repo#number.
+contributions_skip:
+  - ioanasarah/BTR_pipeline#2
