@@ -5,7 +5,7 @@ permalink: /software/
 description: Open-source software by Theodoros Visvikis for mass spectrometry imaging and spatial omics.
 mountains: cloudy
 ---
-<p class="page-intro">Tools I build to bring mass spectrometry imaging into the spatial omics ecosystem, and the open-source projects I contribute to.</p>
+<p class="page-intro">Tools I build to bring mass spectrometry imaging into the spatial omics ecosystem, the open-source projects I contribute to, and one for the badminton court.</p>
 
 <section class="scroll scroll--first" aria-labelledby="projects-title">
   <h2 class="scroll__label" id="projects-title">Projects</h2>
@@ -38,5 +38,14 @@ mountains: cloudy
       </li>
       {%- endfor %}
     </ul>
+  </div>
+</section>
+
+<section class="scroll" aria-labelledby="fun-title">
+  <h2 class="scroll__label" id="fun-title">For fun</h2>
+  <div class="scroll__body projects">
+    {%- for project in site.data.software.side_projects %}
+    {% include project-card.html project=project %}
+    {%- endfor %}
   </div>
 </section>

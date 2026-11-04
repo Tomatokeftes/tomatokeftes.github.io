@@ -3,10 +3,10 @@ title: "Native, Memory-Bounded Conversion of Mass Spectrometry Imaging Data into
 authors: "T. Visvikis, W.-M. Vierdag, L. Marconato, A. Birmpili, R. M. A. Heeren, E. Cuypers"
 venue: "Journal of the American Society for Mass Spectrometry"
 venue_short: "JASMS"
+citation: "37(10), 2379–2387"
 year: 2026
 date: 2026-09-22
 doi: "10.1021/jasms.6c00169"
-preprint: "https://doi.org/10.64898/2026.01.26.700792"
 code: "https://github.com/M4i-Imaging-Mass-Spectrometry/thyra"
 data: "https://doi.org/10.5281/zenodo.18326569"
 bibtex: |
@@ -15,6 +15,9 @@ bibtex: |
     author  = {Visvikis, Theodoros and Vierdag, Wouter-Michiel and Marconato, Luca and Birmpili, Angeliki and Heeren, Ron M. A. and Cuypers, Eva},
     journal = {Journal of the American Society for Mass Spectrometry},
     year    = {2026},
+    volume  = {37},
+    number  = {10},
+    pages   = {2379--2387},
     doi     = {10.1021/jasms.6c00169}
   }
 ---

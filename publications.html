@@ -15,7 +15,7 @@ mountains: cloudy
 {%- assign years = pubs | group_by: "year" %}
 {%- for year in years %}
 <section class="scroll{% if forloop.first %} scroll--first{% endif %}" aria-labelledby="year-{{ year.name }}">
-  <h2 class="scroll__label" id="year-{{ year.name }}">{{ year.name }}</h2>
+  <h2 class="scroll__label scroll__label--year" id="year-{{ year.name }}">{{ year.name }}</h2>
   <div class="scroll__body">
     {%- for pub in year.items %}
     {% include pub-entry.html pub=pub %}

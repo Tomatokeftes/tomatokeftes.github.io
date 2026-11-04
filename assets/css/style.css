@@ -24,8 +24,7 @@
   --gutter: 24px;
 }
 
-/* dark mode: ink-dark paper with bright warm text and the light shades of the brand colours
-   (the text weight goes up too, at the end of this file) */
+/* dark mode: ink-dark paper with bright warm text and the light shades of the brand colours */
 @media (prefers-color-scheme: dark) {
   :root {
     --paper: #1d1a17;
@@ -62,6 +61,7 @@ body {
   color: var(--ink);
   font-family: var(--text);
   font-size: 1.1875rem;
+  font-weight: 500; /* the fine strokes of a Garamond thin out on screen at the regular weight */
   line-height: 1.6;
   font-variant-numeric: oldstyle-nums;
   -webkit-font-smoothing: antialiased;
@@ -164,6 +164,11 @@ a:hover {
 
 .brand:hover {
   color: var(--ink);
+}
+
+.brand-title {
+  margin: 0;
+  font: inherit;
 }
 
 .site-nav {
@@ -328,6 +333,12 @@ a:hover {
   writing-mode: vertical-rl;
 }
 
+/* a year reads at a glance with its digits upright, one above the other */
+.scroll__label--year {
+  letter-spacing: 0.06em;
+  text-orientation: upright;
+}
+
 .scroll__body {
   min-width: 0;
 }
@@ -417,30 +428,14 @@ a:hover {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 228px;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  align-items: center;
   gap: 64px;
 }
 
-.hero__name {
-  margin: 0;
-  font-family: var(--display);
-  font-size: clamp(3rem, 2.2rem + 3.4vw, 4.4rem);
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.005em;
-}
-
-.hero__role {
-  margin: 14px 0 0;
-  color: var(--ink-2);
-  font-size: 1.2rem;
-  font-style: italic;
-}
-
 .hero__lede {
-  max-width: 24em;
-  margin: 26px 0 26px;
+  max-width: 26em;
+  margin: 0 0 26px;
   font-size: 1.35rem;
   line-height: 1.5;
 }
@@ -561,7 +556,7 @@ a:hover {
 .pub__title {
   margin: 2px 0 6px;
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.35;
 }
 
@@ -586,7 +581,7 @@ a:hover {
 
 .pub__authors .me {
   color: var(--ink);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .pub__count,
@@ -650,7 +645,7 @@ a:hover {
   margin: 48px 0 12px;
   color: var(--brick);
   font-size: 1.15rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.14em;
   font-variant-caps: all-small-caps;
 }
@@ -787,6 +782,12 @@ a:hover {
 .project__desc {
   margin: 0;
   color: var(--ink-2);
+}
+
+.project__skills {
+  margin: 0;
+  color: var(--ink-3);
+  font-style: italic;
 }
 
 .project .codeblock--inline {
@@ -960,17 +961,4 @@ a:hover {
     padding: 22px 20px;
   }
 
-}
-
-/* ---------- Dark mode type ---------- */
-
-/* the fine strokes of a Garamond thin out on a dark ground, so the text is set a little heavier */
-@media (prefers-color-scheme: dark) {
-  body {
-    font-weight: 450;
-  }
-
-  .pub__authors .me {
-    font-weight: 650;
-  }
 }
