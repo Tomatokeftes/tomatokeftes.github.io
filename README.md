@@ -14,7 +14,7 @@ Personal site of Theodoros Visvikis, published at https://tomatokeftes.github.io
 
   On the 1st of every month, a workflow (`.github/workflows/new-publications.yml`) runs the same script with `--orcid` and opens a pull request with any papers on ORCID that the site lacks. Check the new files and merge it to publish them.
 - **News:** one file per item in `_news/`, with a `date` and a sentence or two of Markdown. If the item announces a paper, give it the paper's `doi` too, so the home page lists the paper only once.
-- **Software:** `_data/software.yml`.
+- **Software:** `_data/software.yml`. On the 1st of every month, a workflow (`.github/workflows/new-contributions.yml`) runs `_tools/new_contributions.py` and opens a pull request with new pull requests to other people's repositories and any status changes. Check it and merge it to publish them. A pull request you do not want listed goes under `contributions_skip` in that file.
 - **Name, menu and profile links:** `_config.yml`. The email address is stored backwards there (`email_reversed`) and turned round in the visitor's browser, which keeps it away from most address harvesters.
 - **Look:** `assets/css/style.css`.
 - **Link previews:** `assets/img/social-card.png`, the picture LinkedIn, Slack and others show when the site is shared. `python _tools/social_card.py` draws it again (needs Edge or Chrome).

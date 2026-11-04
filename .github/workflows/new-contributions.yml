@@ -1,0 +1,53 @@
+# Once a month, look up my pull requests to other people's repositories and open a pull
+# request that adds new ones and corrects the status of listed ones (see
+# _tools/new_contributions.py). Nothing reaches the live site until the pull request is
+# merged. It can also be started by hand from the Actions tab.
+name: New contributions
+
+on:
+  schedule:
+    - cron: "37 6 1 * *" # the 1st of every month, 06:37 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update contributions from GitHub
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 _tools/new_contributions.py | tee changes.txt
+
+      - name: Open a pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain _data/software.yml)" ]; then
+            echo "No changes."
+            exit 0
+          fi
+          branch=new-contributions
+          if gh pr view "$branch" --json state --jq .state 2>/dev/null | grep -q OPEN; then
+            echo "A pull request for contributions is already open; merge or close it first."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add _data/software.yml
+          git commit -m "Update contributions from GitHub"
+          git push --force origin "$branch"
+          {
+            echo "Changes to the contributions on the Software page:"
+            echo
+            sed 's/^/- /' changes.txt
+            echo
+            echo "Before merging, reword new titles and write the description of a new project if it is empty. A pull request you do not want listed goes under contributions_skip in _data/software.yml."
+          } > body.md
+          gh pr create --head "$branch" --title "Update contributions from GitHub" --body-file body.md
