@@ -5,9 +5,16 @@ projects:
     logo: /assets/img/thyra-logotype.svg
     repo: M4i-Imaging-Mass-Spectrometry/thyra
     description: >-
-      Python library that converts mass spectrometry imaging data (imzML and
-      Bruker) into the SpatialData/Zarr format, so MSI can be analysed alongside
-      other spatial omics data.
+      Python library and command-line tool that converts mass spectrometry
+      imaging data (Bruker, Waters, PHI and imzML) into the SpatialData/Zarr
+      format, so MSI can be analysed alongside other spatial omics data. It
+      handles datasets larger than memory and keeps ion mobility and MS/MS data.
+    skills:
+      - Out-of-core data processing
+      - Vendor file formats
+      - Zarr
+      - Python packaging
+      - CI/CD
     language: Python
     license: MIT
     role: Author and maintainer
@@ -17,7 +24,9 @@ projects:
         url: https://m4i-imaging-mass-spectrometry.github.io/thyra/
       - label: PyPI
         url: https://pypi.org/project/thyra/
-      - label: Paper
+      - label: Nature Methods
+        url: https://doi.org/10.1038/s41592-026-03305-5
+      - label: JASMS
         url: https://doi.org/10.1021/jasms.6c00169
 
   - name: MALDI-MSI and Xenium overlay
@@ -31,6 +40,26 @@ projects:
     links:
       - label: Paper
         url: https://doi.org/10.1038/s41598-025-26735-1
+
+# Side projects: for fun, on the Software page. Leave out repo while the code is private.
+side_projects:
+  - name: Mikiri
+    repo: Tomatokeftes/mikiri
+    description: >-
+      Mikiri (見切り, "reading the shuttle") analyses badminton video on your own
+      computer. From a phone clip it estimates pose, tracks up to four players,
+      maps them onto the court and describes their jumps, lunges, footwork and
+      strokes. A small classifier learns to name shots from your own labels, and
+      says when it cannot tell two apart.
+    skills:
+      - Computer vision
+      - Pose estimation
+      - Multi-object tracking
+      - Machine learning
+      - Signal processing
+      - FastAPI
+    language: Python
+    role: Author
 
 # Contributions: pull requests to other open-source projects, on the Software page.
 # status is merged or open; update it when an open pull request is merged or closed.
@@ -70,3 +99,12 @@ contributions:
       - number: 405
         title: Import the Xenium onboard analysis (clustering, PCA, UMAP, differential expression) into the table
         status: open
+
+  - name: BTR_pipeline
+    org: ioanasarah
+    repo: ioanasarah/BTR_pipeline
+    description: Spatial segmentation and feature selection of MSI data, from a bachelor's thesis at Maastricht University.
+    pull_requests:
+      - number: 7
+        title: Fix bugs across the pipeline
+        status: merged
